@@ -1,136 +1,136 @@
 import React, { Component } from 'react';
  import { Platform, StyleSheet, View, Text,TextInput,
- Image,ImageBackground, TouchableOpacity, Alert,StatusBar } from 'react-native';
+ Image, ImageBackground, TouchableOpacity, Alert,StatusBar, Dimensions } from 'react-native';
+ 
+ import bgImage from './Images/background.jpg'
+ import logo from './Images/logo.png'
+ import Icon from 'react-native-vector-icons/Ionicons'
+ const { width: WIDTH } = Dimensions.get('window')
+
  export default class Myapp extends Component<{}>
 {
    constructor(){
      super();
      this.state={
-     isVisible : true,
+     showpass: true,
+     press: false
     }
   }
-   Hide_Splash_Screen=()=>{
-    this.setState({
-      isVisible : false
-    });
-  }
-
-  componentDidMount(){
-    var that = this;
-    setTimeout(function(){
-      that.Hide_Splash_Screen();
-    }, 5000);
-   }
+   
+    showpass = () => {
+        if(this.state.press == false) {
+            this.setState({ showpass: false, press: true})  
+		}else {
+              this.setState({ showpass: true, press: false})
+		}
+	}
 
     render()
     {
-        let Splash_Screen = (
-             <View style={styles.SplashScreen_RootView}>
-                 <View style={styles.SplashScreen_ChildView}>
-                     <View style={styles.container}>
-                        <StatusBar
-                          backgroundColor="#1c313a"
-                          barStyle="light-content"
-                          />
-                        <Text style={{color:"#ffffff",fontSize:30,fontWeight: 'bold'}}>CHIT FUND</Text>
-                      </View>
-                </View>
-             </View> )
+        
          return(
-           <View style={styles.container_login}>
-             <TextInput style={styles.inputBox}
-              underlineColorAndroid='rgba(128,128,128,128)'
-              placeholder="Email"
-              placeholderTextColor = "#c0c0c0"
+
+         <ImageBackground source={bgImage} style={styles.backgroundContainer}>
+
+         <View style={styles.inputContainer}>
+            <Icon name= {'ios-person'} size={28} color={'rgba(225, 225, 225, 0.7)'}
+                style={styles.inputIcons}/>
+            <TextInput
+                style={styles.input}
+                placeholder={'Username'}
+                placeholderTextColor={'rgba(255, 255, 225, 0.7)'}
+                underlineColorAndroid='transparent'
              />
-             <TextInput style={styles.inputBox}
-                underlineColorAndroid='rgba(128,128,128,128)'
-                placeholder="Password"
-                secureTextEntry={true}
-                placeholderTextColor = "#c0c0c0"
+        </View>
+        <View style={styles.inputContainer}>
+            <Icon name= {'ios-lock'} size={28} color={'rgba(225, 225, 225, 0.7)'}
+                style={styles.inputIcons} />
+            <TextInput
+                style={styles.input}
+                placeholder={'Password'}
+                secureTextEntry={this.state.showpass}
+                placeholderTextColor={'rgba(255, 255, 225, 0.7)'}
+                underlineColorAndroid='transparent'
              />
-            <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            {
-                 (this.state.isVisible === true) ? Splash_Screen : null
-            }
-          </View>
+            
+            <TouchableOpacity style={styles.btnEye}
+            onPress={this.showpass.bind(this)}>
+                <Icon name={this.state.press == false ? 'ios-eye' : 'ios-eye-off'} 
+                size={26} color={'rgba(255, 255, 225, 0.7)'}/>
+             </TouchableOpacity>
+
+             <TouchableOpacity style={styles.btnLogin}>
+                <Text style={styles.text} >Login</Text>
+
+             </TouchableOpacity>
+
+        </View>
+         </ImageBackground>
               );
     }
 }
  const styles = StyleSheet.create(
 {
-    MainContainer:
-    {
+    
+    backgroundContainer: {
         flex: 1,
+        width: null,
+        height: null,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: ( Platform.OS === 'ios' ) ? 20 : 0
+	},
+    logoContainer: {
+        alignItems: 'center',
+        marginBottom: 50
     },
-
-    SplashScreen_RootView:
-    {
-        justifyContent: 'center',
-        flex:1,
-        margin: 10,
+    logo: {
+        width: 120,
+        height: 120
+	},
+    logoText: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: '500',
+        marginTop: 10,
+        opacity: 0.5
+	},
+    inputContainer: {
+        marginTop: 10
+	},
+    input: {
+        width: WIDTH - 55,
+        height: 45,
+        borderRadius: 45,
+        fontSize: 16,
+        paddingLeft: 55,
+        backgroundColor: 'rgba(0, 0, 0, 0.35)',
+        color: 'rgba(225, 225, 225, 0.7)',
+        marginHorizontal: 25
+	},
+    inputIcons: {
         position: 'absolute',
-        width: '100%',
-        height: '100%',
-      },
-      container_login:
-    {
-       flexGrow: 1,
-       justifyContent:'center',
-       alignItems:'center'
-      },
-      text:
-      {
-        color:"#ffffff",
-        fontSize:30,
-        fontWeight: 'bold',
-        justifyContent:'center'
-      },
-      inputBox:
-    {
-       width:300,
-       backgroundColor:'rgba(255,255,255,0.3)',
-       borderRadius:25,
-       paddingHorizontal:16,
-       fontSize:16,
-       color:'#000000',
-       marginVertical:10
-     },
-     button:
-    {
-       width:300,
-       backgroundColor:'#1c313a',
-       borderRadius:25,
-       marginVertical:10,
-       paddingVertical:12
-     },
-     buttonText:
-  {
-       fontSize:16,
-       fontWeight:'500',
-       color:'#ffffff',
-       textAlign:'center'
-     },
-      container : {
-      backgroundColor:'#455a64',
-      width:'100%',
-      height: '100%',
-      resizeMode: 'contain',
-      flex:1,
-      alignItems:'center',
-      justifyContent:'center'
-   },
-
-    SplashScreen_ChildView:
-    {
+        top: 8,
+        left: 37
+	},
+    btnEye: {
+        position: 'absolute',
+        top: 8,
+        right: 37
+	},
+    btnLogin: {
+        width: WIDTH - 150,
+        height: 45,
+        borderRadius: 25,  
+        backgroundColor: '#432577',
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#00BCD4',
-        flex:1,
+        marginTop: 30,
+        marginLeft: 70
+       
+        
     },
+    text: {
+        color: 'rgba(225, 225, 225, 0.7)',
+        fontSize: 16,
+        textAlign: 'center'
+	}
 });
