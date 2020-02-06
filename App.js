@@ -9,21 +9,21 @@ import React, { Component } from 'react';
 
  export default class Myapp extends Component<{}>
 {
-   constructor(){
-     super();
-     this.state={
-     showpass: true,
-     press: false
+    onChanged(text){
+    let newText = '';
+    let numbers = '0123456789';
+
+    for (var i=0; i < text.length; i++) {
+        if(numbers.indexOf(text[i]) > -1 ) {
+            newText = newText + text[i];
+        }
+        else {
+            // your call back function
+            alert("please enter numbers only");
+        }
     }
-  }
-   
-    showpass = () => {
-        if(this.state.press == false) {
-            this.setState({ showpass: false, press: true})  
-		}else {
-              this.setState({ showpass: true, press: false})
-		}
-	}
+    this.setState({ myNumber: newText });
+}
 
     render()
     {
@@ -33,38 +33,27 @@ import React, { Component } from 'react';
          <ImageBackground source={bgImage} style={styles.backgroundContainer}>
 
          <View style={styles.inputContainer}>
-            <Icon name= {'ios-person'} size={28} color={'rgba(225, 225, 225, 0.7)'}
+            <Icon name= {'ios-call'} size={28} color={'rgba(225, 225, 225, 0.7)'}
                 style={styles.inputIcons}/>
             <TextInput
                 style={styles.input}
-                placeholder={'Username'}
+                keyboardType='numeric'
+                onChangeText={(text)=> this.onChanged(text)}
+                //value={this.state.myNumber}
+                maxLength={10}  //setting limit of input
+                placeholder={'Enter phone number'}
                 placeholderTextColor={'rgba(255, 255, 225, 0.7)'}
                 underlineColorAndroid='transparent'
              />
         </View>
-        <View style={styles.inputContainer}>
-            <Icon name= {'ios-lock'} size={28} color={'rgba(225, 225, 225, 0.7)'}
-                style={styles.inputIcons} />
-            <TextInput
-                style={styles.input}
-                placeholder={'Password'}
-                secureTextEntry={this.state.showpass}
-                placeholderTextColor={'rgba(255, 255, 225, 0.7)'}
-                underlineColorAndroid='transparent'
-             />
             
-            <TouchableOpacity style={styles.btnEye}
-            onPress={this.showpass.bind(this)}>
-                <Icon name={this.state.press == false ? 'ios-eye' : 'ios-eye-off'} 
-                size={26} color={'rgba(255, 255, 225, 0.7)'}/>
-             </TouchableOpacity>
-
+             <View style={styles.button}>
              <TouchableOpacity style={styles.btnLogin}>
-                <Text style={styles.text} >Login</Text>
+                <Text style={styles.text} >Get OTP</Text>
 
              </TouchableOpacity>
-
-        </View>
+             </View>
+        
          </ImageBackground>
               );
     }
@@ -124,10 +113,13 @@ import React, { Component } from 'react';
         backgroundColor: '#432577',
         justifyContent: 'center',
         marginTop: 30,
-        marginLeft: 70
-       
+        alignItems: 'center'
         
     },
+    button: {
+        justifyContent: 'space-around',
+        alignItems: 'center'
+	},
     text: {
         color: 'rgba(225, 225, 225, 0.7)',
         fontSize: 16,
