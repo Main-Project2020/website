@@ -88,7 +88,7 @@ import React, { Component } from 'react';
 	},
     input: {
         width: WIDTH - 55,
-        height: 45,
+        height: 50,
         borderRadius: 45,
         fontSize: 16,
         paddingLeft: 55,
